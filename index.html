@@ -59,9 +59,9 @@
                 <pre class="code_wrapper"><code class="hljs" v-html="hl(question['code'])"></code></pre>      
                 <ul class="button_wrapper">
                     <li @click.prevent="submitAnswer($event.target.dataset.index)" :data-index="index" v-for="(choice, index) in question['choices']">
-                        <button class="button" :class="{ 'is-success': answered && index == question['correct'], 'is-info': answered && index == answer && answer != question['correct'] }">
+                        <a @click.prevent class="button" :class="{ 'is-success': answered && index == question['correct'], 'is-info': answered && index == answer && answer != question['correct'] }">
                             {{index + 1}}
-                        </button>
+                        </a>
                         <pre class="answer_code" v-if="index != 0 && index != question['choices'].length - 1"><code class="hljs" v-html="choice"></code></pre>
                         <span v-else>
                             {{choice}}
