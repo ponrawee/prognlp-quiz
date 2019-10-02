@@ -84,7 +84,7 @@
                     </p>
                 </div>
                 <div class="has-text-centered">
-                    <button v-if="answered" class="button is-primary is-large" @click.prevent="$emit('next')"><span v-if="questionNumber < questionLength - 1">ข้อต่อไป &rarr;</span><span v-else>ดูคะแนน</span></button>
+                    <button v-if="answered" class="button is-primary is-large" @click.prevent="$emit('next')"><span v-if="questionNumber < questionLength">ข้อต่อไป &rarr;</span><span v-else>ดูคะแนน</span></button>
                     <div class="question_number">{{questionNumber}}/{{questionLength}}</div>
                 </div>
             </div>
