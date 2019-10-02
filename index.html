@@ -116,7 +116,6 @@
                         return r.value
                     },
                     submitAnswer: function(index) {
-                        console.log(this.answer)
                         if(!this.answered) {
                             this.answer = index
                             this.$emit('answer', this.correct)
