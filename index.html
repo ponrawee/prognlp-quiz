@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>มาเล่น quiz กันเถอะ (Prog NLP)</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" integrit y="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+        <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark-reasonable.min.css" integrity="sha256-aSSESB/epnDFJNB/SpybxyBS+JiunkIFwZfp/eElB68=" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>  
+    </head>
+    <body>
+            <div id="app">
+                <introduction></introduction>
+                <div class="container">
+                    <div class="has-text-centered" v-if="stage == 0">
+                        <br><button @click.prevent="startQuiz" class="button is-primary is-large is-size-1">เริ่ม</button>
+                        <br><br>
+                        *ถ้าทำไม่ได้ไม่ต้องเครียด ไม่มีผลอะไรกับชีวิต/เกรด/ฯลฯ สงสัยอะไรมาถาม TA ได้เสมอที่ 811 อาคารมหาจักรีสิรินธร
+                    </div>
+                    <question :question="questions[currentQuestion]"
+                            :question-length="questions.length"
+                            :question-number="currentQuestion + 1"
+                            :answered="answered"
+                            @answer="handleAnswer"
+                            @next="nextQuestion"
+                            v-if="stage == 1"></question>
+                    <result v-if="stage == 2" :score="score" :full-score="questions.length"></result>
+                </div>
+            </div>
+        </div>
+
+        <!-- Introduction-->
+        <script type="text/x-template" id="_t_introduction">
+            <section class="hero is-primary is-bold">
+                <div class="hero-body">
+                    <div class="container">
+                    <h1 class="title">
+                        หรรษา Prog NLP
+                    </h1>
+                    <h2 class="subtitle">
+                        ควิซทำเล่น ๆ ไม่ต้องเครียดจ้า ไม่มีผลอะไรต่อชีวิต
+                    </h2>
+                    </div>
+                </div>
+            </section>
+        </script>
+        <script>
+            Vue.component('introduction', {
+                template: '#_t_introduction'
+            })
+        </script>
+
+        <!-- Question -->
+        <script type="text/x-template" id="_t_question">
+            <div class="question">
+                <strong>{{questionNumber}}. โปรแกรมต่อไปนี้จะ print อะไรออกมา (ถือว่าโค้ดที่เห็นคือโค้ดทั้งหมดของโปรแกรม ไม่มีโค้ดอื่น ๆ แล้ว)</strong>
+                <pre class="code_wrapper"><code class="hljs" v-html="hl(question['code'])"></code></pre>      
+                <ul class="button_wrapper">
+                    <li @click.prevent="submitAnswer($event.target.dataset.index)" :data-index="index" v-for="(choice, index) in question['choices']">
+                        <button class="button" :class="{ 'is-success': answered && index == question['correct'], 'is-info': answered && index == answer && answer != question['correct'] }">
+                            {{index + 1}}
+                        </button>
+                        <pre class="answer_code" v-if="index != 0 && index != question['choices'].length - 1"><code class="hljs" v-html="choice"></code></pre>
+                        <span v-else>
+                            {{choice}}
+                        </span>
+                    </li>
+                </ul>
+
+                <div v-if="answered" :class="[correct ? 'is-primary' : 'is-danger', 'notification notification_answered']">
+                    <strong v-if="correct">
+                        ถูกต้อง
+                    </strong>
+                    <strong v-else>
+                        ผิด อิอิ
+                    </strong>
+                    <p>{{question['explanation']}}</p>
+                    <p v-if="'correct_code' in question">
+                        <br>
+                        <strong>ตัวอย่าง code ที่ถูกต้อง</strong>
+                        <pre class="code_wrapper"><code class="hljs" v-html="hl(question['correct_code'])"></code></pre>
+                    </p>
+                </div>
+                <div class="has-text-centered">
+                    <button v-if="answered" class="button is-primary is-large" @click.prevent="$emit('next')"><span v-if="questionNumber < questionLength - 1">ข้อต่อไป &rarr;</span><span v-else>ดูคะแนน</span></button>
+                    <div class="question_number">{{questionNumber}}/{{questionLength}}</div>
+                </div>
+            </div>
+        </script>
+        <script>
+            Vue.component('question', {
+                template: '#_t_question',
+                props: ['question', 'question-number', 'question-length', 'answered'],
+                data() {
+                    return { 
+                        answer: -1
+                    }
+                },
+                computed: {
+                    correct() {
+                        return (this.answer == this.question['correct'])
+                    }
+                },
+                watch: {
+                    questionNumber: function() {
+                        // reset answer index every time the question changes
+                        // this is quite ugly but i have no idea how to deal with this without watch
+                        this.answer = -1
+                    }
+                },
+                methods: {
+                    hl: function(code) {
+                        r = hljs.highlight(name='python', value=code, ignore_illegals=true)
+                        return r.value
+                    },
+                    submitAnswer: function(index) {
+                        if(!this.answered) {
+                            this.answer = index
+                            this.$emit('answer', this.correct)
+                        }
+                    }
+                }
+            })
+        </script>
+
+        <script>
+            Vue.component('result', {
+                template: '#_t_result',
+                props: ['score', 'full-score']
+            })
+        </script>
+        <script type="text/x-template" id="_t_result">
+            <div class="result has-text-centered">
+                <h3 class="is-size-3">จบจ้ะ คะแนนที่ได้:</h3>
+                <h1 class="is-size-1"><strong>{{score}}/{{fullScore}}<strong></h1>
+                <h3 class="is-size-3">
+                        <span v-if="score == 12">ว้าว เก่งขนาดนี้ไม่ต้องเรียนแร้ว</span>
+                        <span v-else-if="score < 12 && score >= 9">เก่งมาก ไม่หลงกล</span>
+                        <span v-else-if="score < 9 && score >= 6">พอได้ สู้ต่อไป</span>
+                        <span v-else-if="score < 6 && score >= 3">ขยันหน่อยนะ มาถามได้ ๆ</span>
+                        <span v-else>ขยันให้มากจ้า มาถามได้ใน office hours!</span>
+                </h3>
+            </div>
+        </script>
+        
+        <!-- Main app -->
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    stage: 0,
+                    questions: null,
+                    currentQuestion: 0,
+                    score: 0,
+                    answered: false
+                },
+                methods: {
+                    startQuiz: function() {
+                        this.stage = 1
+                    }   ,
+                    handleAnswer: function(correct) {
+                        this.answered = true
+                        this.score += correct
+                    },
+                    nextQuestion: function() {
+                        this.answered = false
+                        if(this.currentQuestion < this.questions.length - 1) {
+                            this.currentQuestion++
+                        }
+                        else {
+                            this.stage = 2
+                        }
+                    }
+                },
+                mounted() {
+                    axios.get('quiz.json')
+                    .then(response => (this.questions = response.data))
+                    .catch(error => console.log(error))
+                }
+            })
+        </script>
+
+        <!-- Styling -->
+        <style>
+            body {
+                margin-bottom: 1em;
+            }
+            pre {
+                background-color: none;
+                padding: 0;
+                margin: 0;
+            }
+            .question {
+                box-sizing: border-box;
+                padding: 0 1em;
+            }
+            .answer_code {
+                display: inline-block;
+            }
+            .notification pre {
+                background: none;
+            }
+            .notification pre code {
+                background: #282c34;
+            }
+            .code_wrapper {
+                margin: 1rem auto 0 auto;
+                width: 90%;
+            }
+            .button_wrapper li {
+                padding: 0.5em 0em 0.5em 0.25em;
+                vertical-align: middle;
+                cursor: pointer;
+            }
+            .button_wrapper li:hover {
+                background: #efefef;
+            }
+            .button_wrapper span {
+                vertical-align: middle;
+            }
+            .button_wrapper, .notification, 
+            .question, .result {
+                margin-top: 1.5rem;
+            }
+            .question_number {
+                margin-top: 0.5rem;
+            }
+        </style>
+   </body>
+</html>

@@ -1,0 +1,83 @@
+[
+    {
+        "code": "def someFunction():\n  print(\"test\")",
+        "choices": ["ไม่ print อะไรเลย", "test", "โปรแกรมจะ error"],
+        "correct": 0,
+        "explanation": "ฟังก์ชัน someFunction() สร้างแล้ว แต่ยังไม่ได้เรียกใช้ จึงไม่เกิดอะไรขึ้นเลย ต้องเรียกใช้ด้วย someFunction() ก่อน",
+        "correct_code": "def someFunction():\n  print(\"test\")\nsomeFunction()"
+    },
+    {
+        "code": "def someFunction():\n  return \"test\"\nsomeFunction()",
+        "choices": ["ไม่ print อะไรเลย", "test", "โปรแกรมจะ error"],
+        "correct": 0,
+        "explanation": "ฟังก์ชัน someFunction() สร้างและเรียกใช้แล้ว แต่โปรแกรมให้ return ไม่ใช่ print เลยไม่มีอะไรออกมา (ใน colab จะมี เพราะว่ามันแสดงของที่ return เสมอ แต่จริง ๆ ต้องไม่มี)",
+        "correct_code": "def someFunction():\n  print(\"test\")\nsomeFunction() # จะ print คำว่า test"
+    },
+    {
+        "code": "def someFunction():\n  return \"test\"\na = someFunction()\nprint(a)",
+        "choices": ["ไม่ print อะไรเลย", "test", "โปรแกรมจะ error"],
+        "correct": 1,
+        "explanation": "ฟังก์ชัน someFunction() return ค่า \"test\" มาเก็บใน a ทำให้ a มีค่าเป็น \"test\" จากนั้นเราสั่งให้ print ค่าของ a ออกมา จึงได้เป็น test"
+    },
+    {
+        "code": "s = \"   abc   \"\ns.strip()\nprint(s)",
+        "choices": ["ไม่ print อะไรเลย", "abc", "   abc   ", "โปรแกรมจะ error"],
+        "correct": 2,
+        "explanation": "s เป็น string เวลาที่เรียก method (.strip(), .replace(), .split() ฯลฯ) จะไม่เกิดอะไรขึ้นกับตัวมัน คือค่ายังเป็นเหมือนเดิม ถ้าจะใช้ให้ถูก ต้องมีตัวแปรมารับ เช่น s2 = s.strip() หรือจะเขียนทับตัวแปรเดิมก็ได้ เช่น s = s.strip()",
+        "correct_code": "s = \"   abc   \"\ns = s.strip()\nprint(s) # จะ print ข้อความ abc"
+    },
+    {
+        "code": "for i in range(3):\nprint(i)",
+        "choices": ["ไม่ print อะไรเลย", "0\n1\n2", "1\n2\n3", "0\n1\n2\n3", "โปรแกรมจะ error"],
+        "correct": 4,
+        "explanation": "โปรแกรมจะ Error เพราะว่าเมื่อใช้ for จะต้องมีคำสั่งที่ให้ทำซ้ำข้างใน โดยแสดงว่าอยู่ข้างใน for ด้วยการย่อหน้าเข้ามา",
+        "correct_code": "for i in range(3):\n  print(i) # จะ print 0 1 2 บรรทัดละตัว"
+    },
+    {
+        "code": "def loop():\n  for i in range(1, 3):\n    return i\nl = loop()\nprint(l)",
+        "choices": ["ไม่ print อะไรเลย", "1\n2\n3", "3", "1", "โปรแกรมจะ error"],
+        "correct": 3,
+        "explanation": "จากที่เราเขียน for i in range(1 ,3) ไว้ เมื่อ for loop เริ่มรอบแรกสุด i จะเริ่มที่ 1 แต่ว่าเมื่อเข้า loop แล้ว เจอคำสั่งให้ return ค่า i ทันทีตั้งแต่รอบแรก ฟังก์ชันจึงหยุดทำงาน (เพราะมีการ return เกิดขึ้น) และ return ค่า i ซึ่งยังเป็น 1 อยู่ (เพราะยังอยู่ในรอบแรกของ loop) เมื่อตัวแปร l มารับค่าจาก loop() และสั่งให้ print ค่าของ l จึงได้ 1"
+    },
+    {
+        "code": "sentence_list = []\nsentence = \"hey you\"\nfor word in sentence:\n  sentence_list.append(word)\nprint(sentence_list)",
+        "choices": ["ไม่ print อะไรเลย", "['hey', 'you']", "['h', 'e', 'y', ' ', 'y', 'o', 'u']", "โปรแกรมจะ error"],
+        "correct": 2,
+        "explanation": "sentence เป็น string เวลาที่เรา for ... in กับ string เราจะได้ตัวอักษรแต่ละตัว ถึง string เราจะเป็นประโยคหรืออะไร เราก็ได้ตัวอักษรอยู่ดี เมื่อเราสั่ง append เราก็จะได้ตัวอักษรแต่ละตัวไปเป็น list ถ้าเราได้ list ของคำในประโยค เราก็แค่ split ก็พอ",
+        "correct_code": "sentence_list = []\nsentence = \"hey you\"\nsentence = sentence_list.split(\" \")\nprint(sentence_list) # จะ print ['hey', 'you']"
+    },
+    {
+        "code": "sentence = \"I,am\"\nsentence.split(',')\nfor word in sentence:\n  print(word)",
+        "choices": ["ไม่ print อะไรเลย", "['I', 'am']", "I\nam", "I\n,\na\nm", "โปรแกรมจะ error"],
+        "correct": 3,
+        "explanation": "sentence เป็น string เวลาที่เอาไป split แต่ไม่มีตัวแปรมารับ จะไม่เกิดอะไรขึ้น sentence ก็ยังเป็น string ตัวเดิมอยู่ ไม่ใช่ list เมื่อใช้ for loop กับ sentence แล้วจึงได้ตัวอักษรแต่ละตัวออกมา ใน loop สั่งให้พิมพ์แต่ละตัว",
+        "correct_code": "sentence = \"I,am\"\nsentence_as_list = sentence.split(',')\nfor word in sentence_as_list:\n  print(word) # print ['I', 'am']"
+    },
+    {
+        "code": "l = [\"a\", \"b\", \"\", \"c\"]\nfor element in l:\n  if element.isalnum():\n    new_list.append(element)\nprint(new_list)",
+        "choices": ["ไม่ print อะไรเลย", "['a','b','c']", "['a','b', '', 'c']", "โปรแกรมจะ error"],
+        "correct": 3,
+        "explanation": "โปรแกรมจะ error เพราะว่าเราเรียกพยายามเรียกใช้ new_list โดยที่โปรแกรมมันยังไม่รู้จักมาก่อน ถ้าจะ append อะไรเข้าไปในตัวแปร ต้องมีตัวแปรนั้นมาก่อน วิธีการแก้คือ เพิ่มบรรทัด new_list = [] เข้าไปเป็นบรรทัดแรก เพื่อสร้าง list เปล่าขึ้นมา python จะได้รู้จักตัวแปร new_list เมื่อเราเรียกใช้",
+        "correct_code": "new_list = [] \nl = [\"a\", \"b\", \"\", \"c\"]\nfor element in l:\n  if element.isalnum():\n    new_list.append(element)\nprint(new_list) # จะ print ['a', 'b', 'c']"
+    },
+    {
+        "code": "def checkAlpha(s):\n  if s.isalpha:\n    return True\n  else:\n    return False\nc = checkAlpha(\"123\")\nprint(c)",
+        "choices": ["ไม่ print อะไรเลย", "True", "False", "โปรแกรมจะ error"],
+        "correct": 1,
+        "explanation": "โปรแกรม print True เพราะว่า isalpha ต้องใช้เป็น method นั่นคือ ต้องมี () เป็น .isalpha() ถึงจะเช็กได้ว่า string เป็น alphabet หรือเปล่า ถ้าใช้ isalpha โดยที่ไม่มี เมื่อเอาไป if จะได้ค่าเป็น True เสมอ (คือใช้ไม่ได้นั่นเอง)",
+        "correct_code": "def checkAlpha(s):\n  if s.isalpha():\n    return True\n  else:\n    return False\nc = checkAlpha(\"123\")\nprint(c) # จะ print False"
+    },
+    {
+        "code": "def printReturn():\n  for i in range(3):\n    print(i)\n  return i\nv = printReturn()\nprint(v)",
+        "choices": ["ไม่ print อะไรเลย", "0\n1\n2", "0\n1\n2\n2", "โปรแกรมจะ error"],
+        "correct": 2,
+        "explanation": "ฟังก์ชัน printReturn() print ค่าของ i ในแต่ละรอบ (เริ่มที่ 0 จบที่ 2) จากนั้น จะ return ค่า i ซึ่งหลังจากจบ for loop มีค่า 2 (ตอนวนรอบสุดท้าย) ค่าที่ return ถูกนำมาเก็บใน v เมื่อสั่ง print(v) ก็จะแสดงค่าของ v อีกทีนึง ซึงคือ 2 สรุปแล้ว print สามบรรทัดแรกมาจาก printReturn() ส่วน print สุดท้ายมาจากที่สั่ง print ค่าของ v"
+    },
+    {
+        "code": "v = \"abc\"\nprint(\"our variable is+v\")",
+        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is+abc", "our variable is+v", "our variable is abc", "โปรแกรมจะ error"],
+        "correct": 3,
+        "explanation": "เรากำหนดให้ตัวแปร v เป็น \"abc\" ก็จริง แต่ +v อยู่ใน \"\" ทำให้ python คิดว่าเป็น string เสมอ ไม่ได้ไปดึงค่าตัวแปร v มาแสดง ถ้าจะแก้ให้แสดงค่าของตัวแปร v ต้องเขียนว่า print(\"our variable is \" + v)",
+        "correct_code": "v = \"abc\"\nprint(\"our variable is\" + v) # จะ print ข้อความ our variable is abc"
+    }
+]
