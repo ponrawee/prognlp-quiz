@@ -75,8 +75,7 @@
     },
     {
         "code": "v = \"abc\"\nprint(\"our variable is +v\")",
-        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is +
-                    ", "our variable is +v", "our variable is abc", "โปรแกรมจะ error"],
+        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is +abc", "our variable is +v", "our variable is abc", "โปรแกรมจะ error"],
         "correct": 3,
         "explanation": "เรากำหนดให้ตัวแปร v เป็น \"abc\" ก็จริง แต่ +v อยู่ใน \"\" ทำให้ python คิดว่าเป็น string เสมอ ไม่ได้ไปดึงค่าตัวแปร v มาแสดง ถ้าจะแก้ให้แสดงค่าของตัวแปร v ต้องเขียนว่า print(\"our variable is \" + v)",
         "correct_code": "v = \"abc\"\nprint(\"our variable is\" + v) # จะ print ข้อความ our variable is abc"
