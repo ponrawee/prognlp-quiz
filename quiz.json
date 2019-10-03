@@ -74,8 +74,8 @@
         "explanation": "ฟังก์ชัน printReturn() print ค่าของ i ในแต่ละรอบ (เริ่มที่ 0 จบที่ 2) จากนั้น จะ return ค่า i ซึ่งหลังจากจบ for loop มีค่า 2 (ตอนวนรอบสุดท้าย) ค่าที่ return ถูกนำมาเก็บใน v เมื่อสั่ง print(v) ก็จะแสดงค่าของ v อีกทีนึง ซึงคือ 2 สรุปแล้ว print สามบรรทัดแรกมาจาก printReturn() ส่วน print สุดท้ายมาจากที่สั่ง print ค่าของ v"
     },
     {
-        "code": "v = \"abc\"\nprint(\"our variable is+v\")",
-        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is+abc", "our variable is+v", "our variable is abc", "โปรแกรมจะ error"],
+        "code": "v = \"abc\"\nprint(\"our variable is +v\")",
+        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is +abc", "our variable is +v", "our variable is abc", "โปรแกรมจะ error"],
         "correct": 3,
         "explanation": "เรากำหนดให้ตัวแปร v เป็น \"abc\" ก็จริง แต่ +v อยู่ใน \"\" ทำให้ python คิดว่าเป็น string เสมอ ไม่ได้ไปดึงค่าตัวแปร v มาแสดง ถ้าจะแก้ให้แสดงค่าของตัวแปร v ต้องเขียนว่า print(\"our variable is \" + v)",
         "correct_code": "v = \"abc\"\nprint(\"our variable is\" + v) # จะ print ข้อความ our variable is abc"
