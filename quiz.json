@@ -43,7 +43,7 @@
         "code": "sentence_list = []\nsentence = \"hey you\"\nfor word in sentence:\n  sentence_list.append(word)\nprint(sentence_list)",
         "choices": ["ไม่ print อะไรเลย", "['hey', 'you']", "['h', 'e', 'y', ' ', 'y', 'o', 'u']", "โปรแกรมจะ error"],
         "correct": 2,
-        "explanation": "sentence เป็น string เวลาที่เรา for ... in กับ string เราจะได้ตัวอักษรแต่ละตัว ถึง string เราจะเป็นประโยคหรืออะไร เราก็ได้ตัวอักษรอยู่ดี เมื่อเราสั่ง append เราก็จะได้ตัวอักษรแต่ละตัวไปเป็น list ถ้าเราได้ list ของคำในประโยค เราก็แค่ split ก็พอ",
+        "explanation": "sentence เป็น string เวลาที่เรา for ... in กับ string เราจะได้ตัวอักษรแต่ละตัว ถึง string เราจะเป็นประโยคหรืออะไร เราก็ได้ตัวอักษรอยู่ดี เมื่อเราสั่ง append เราก็จะได้ตัวอักษรแต่ละตัวไปเป็น list ถ้าเราอยากได้ list ของคำในประโยค เราก็แค่ split ก็พอ",
         "correct_code": "sentence_list = []\nsentence = \"hey you\"\nsentence_list = sentence.split(\" \")\nprint(sentence_list) # จะ print ['hey', 'you']"
     },
     {
