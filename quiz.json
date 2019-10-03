@@ -24,7 +24,7 @@
         "choices": ["ไม่ print อะไรเลย", "abc", "   abc   ", "โปรแกรมจะ error"],
         "correct": 2,
         "explanation": "s เป็น string เวลาที่เรียก method (.strip(), .replace(), .split() ฯลฯ) จะไม่เกิดอะไรขึ้นกับตัวมัน คือค่ายังเป็นเหมือนเดิม ถ้าจะใช้ให้ถูก ต้องมีตัวแปรมารับ เช่น s2 = s.strip() หรือจะเขียนทับตัวแปรเดิมก็ได้ เช่น s = s.strip()",
-        "correct_code": "s = \"   abc   \"\ns = s.strip()\nprint(s) # จะ print ข้อความ abc"
+        "correct_code": "s = \"   abc   \"\ns = s.strip()\nprint(s) # จะ print ข้อความ abc แบบไม่มี space"
     },
     {
         "code": "for i in range(3):\nprint(i)",
@@ -51,7 +51,7 @@
         "choices": ["ไม่ print อะไรเลย", "['I', 'am']", "I\nam", "I\n,\na\nm", "โปรแกรมจะ error"],
         "correct": 3,
         "explanation": "sentence เป็น string เวลาที่เอาไป split แต่ไม่มีตัวแปรมารับ จะไม่เกิดอะไรขึ้น sentence ก็ยังเป็น string ตัวเดิมอยู่ ไม่ใช่ list เมื่อใช้ for loop กับ sentence แล้วจึงได้ตัวอักษรแต่ละตัวออกมา ใน loop สั่งให้พิมพ์แต่ละตัว",
-        "correct_code": "sentence = \"I,am\"\nsentence_as_list = sentence.split(',')\nfor word in sentence_as_list:\n  print(word) # print ['I', 'am']"
+        "correct_code": "sentence = \"I,am\"\nsentence_as_list = sentence.split(',')\nfor word in sentence_as_list:\n  print(word) # print I บรรทัดแรก am บรรทัดที่ 2"
     },
     {
         "code": "l = [\"a\", \"b\", \"\", \"c\"]\nfor element in l:\n  if element.isalnum():\n    new_list.append(element)\nprint(new_list)",
@@ -75,7 +75,8 @@
     },
     {
         "code": "v = \"abc\"\nprint(\"our variable is +v\")",
-        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is +abc", "our variable is +v", "our variable is abc", "โปรแกรมจะ error"],
+        "choices": ["ไม่ print อะไรเลย", "our variable is v", "our variable is +
+                    ", "our variable is +v", "our variable is abc", "โปรแกรมจะ error"],
         "correct": 3,
         "explanation": "เรากำหนดให้ตัวแปร v เป็น \"abc\" ก็จริง แต่ +v อยู่ใน \"\" ทำให้ python คิดว่าเป็น string เสมอ ไม่ได้ไปดึงค่าตัวแปร v มาแสดง ถ้าจะแก้ให้แสดงค่าของตัวแปร v ต้องเขียนว่า print(\"our variable is \" + v)",
         "correct_code": "v = \"abc\"\nprint(\"our variable is\" + v) # จะ print ข้อความ our variable is abc"
